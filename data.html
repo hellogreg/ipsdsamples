@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--meta name="viewport" content="initial-scale=1.0,width=device-width"-->
+    <!--[if lte IE 7]>
+      <meta http-equiv="refresh" content="0;URL='http://ipsd.us/204data'" />
+    <![endif]-->
+    <meta name="viewport" content="width=860" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta charset="utf-8" />
+    <title>IPSD 204 Data Lab</title>
+    <link rel="stylesheet" href="//cloud.typography.com/769178/781146/css/fonts.css" />
+    <link href="data.css?v=1" media="all" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>IPSD 204 Data Lab</h1>
+      <form autocomplete="off" class="category-chooser">
+        <p>
+          Chart type:
+          <select id="chart-select" aria-label="Select a type of chart">
+            <option value="line" selected>View Single Category</option>
+            <option value="scatter">Correlate Two Categories</option>
+            <!--<option value="slope" style="display:none;">Slopegraph</option>-->
+          </select>
+          <label><input type="checkbox" id="data-checkbox" checked />Show data table</label>
+          <label><input type="checkbox" id="data-zero" />Start chart axes at zero</label>
+        </p>
+        <p>
+          Category<span class="multi"> #1 (x-axis)</span>:
+          <select id="x-select" aria-label="Select category #1">
+            <option value="cost" selected>Per-student Spending ($)</option>
+            <option value="pupilAdmin">Pupil to Admin Ratio</option>
+            <option value="lowIncome">% of Low-income Students</option>
+            <option value="classSize">Average Class Size</option>
+            <option value="teacherSalary">Average Teacher Salary ($)</option>
+            <option value="limitedEnglish">% of Limited-English Students</option>
+            <!--
+        <option value="iar2019ELA">Average IAR ELA</option>
+        <option value="iar2019Math">Average IAR Math</option>
+        <option value="sat">Average SAT Score</option>
+        -->
+            <option value="graduationRate">% of HS Graduates After 4 Years</option>
+            <option value="iep">% of Special Ed. Eligible Students</option>
+          </select>
+          &nbsp;<span class="multi">Category #2 (y-axis):</span>
+          <select id="y-select" class="multi" aria-label="Select category #2">
+            <option value="cost">Per-student Spending ($)</option>
+            <option value="pupilAdmin">Pupil to Admin Ratio</option>
+            <option value="lowIncome">% of Low-income Students</option>
+            <option value="classSize">Average Class Size</option>
+            <option value="teacherSalary">Average Teacher Salary ($)</option>
+            <option value="limitedEnglish">% of Limited-English Students</option>
+            <!--
+        <option value="iar2019ELA">Average IAR ELA</option>
+        <option value="iar2019Math">Average IAR Math</option>
+        <option value="sat">Average SAT Score</option>
+        -->
+            <option value="graduationRate">% of HS Graduates After 4 Years</option>
+            <option value="postSecondary">% of Post-secondary Graduates</option>
+            <option value="iep">% of Special Ed. Eligible Students</option>
+          </select>
+        </p>
+      </form>
+      <section id="chart"></section>
+      <p>
+        <em
+          >Note: Demographic and financial data is from 2021. Because all districts had vastly
+          different standardized test participation rates in 2020-21, we are not currently including
+          this data.</em
+        >
+      </p>
+      <section id="data-table"></section>
+    </div>
+
+    <script src="jslib/d3.min.js"></script>
+    <script src="jslib/d3-queue.min.js"></script>
+    <script src="jslib/linreg.js?v=1"></script>
+    <script src="jslib/bullet.js?v=1"></script>
+    <script src="data.js?v=1"></script>
+    <script>
+      // Load the default chart.
+      IpsdData("line");
+    </script>
+  </body>
+</html>

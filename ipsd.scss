@@ -1,0 +1,962 @@
+// 001) Font Imports
+// 002) SCSS Vars and Mixins
+// 003) Media Queries
+// 004) Default/Reset Styles
+// 005) Class and ID Styles
+// 006) Accessibility and utility styles
+
+////////////////////////////////////////////////////////////
+//
+// 001) Font Imports
+//
+
+@font-face {
+  font-family: "MaterialIcons";
+  font-style: normal;
+  font-weight: 400;
+  src: url(/_assets2122/css/MaterialIcons.woff2) format("woff2");
+}
+
+////////////////////////////////////////////////////////////
+//
+// 002) SCSS Vars and Mixins
+//
+
+// Sass constants
+
+$color-focus: #c05700;
+$color-inverted: #fff;
+$color-inverted-highlight: #fa3;
+$line-height: 1.7;
+$horizontal-spacer: 1rem;
+$vertical-spacer: 1rem;
+
+$fonts-system: "system-ui", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Verdana,
+  sans-serif;
+$fonts-accent: "Sentinel SSm A", "Sentinel SSm B", "Mercury SSm A", "Mercury SSm B", Georgia,
+  $fonts-system;
+$fonts-default: "Gotham SSm A", "Gotham SSm B", "system-ui", -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, Verdana, sans-serif;
+$fonts-narrow: "Gotham Narrow SSm A", "Gotham Narrow SSm B", "system-ui", -apple-system,
+  BlinkMacSystemFont, "Segoe UI", Roboto, Verdana, sans-serif;
+
+// Mixins
+
+// Generic Layout Component Types: stack, box, cluster, sidebar, grid/cardgrid.
+// Loosely based on concepts from Every Layout, by Pickering and Bell.
+
+@mixin stack {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  //gap: $vertical-spacer;
+
+  > * {
+    width: 100%;
+  }
+}
+
+@mixin box {
+  display: block;
+  padding: $vertical-spacer $horizontal-spacer;
+}
+
+@mixin cluster {
+  align-items: center;
+  display: flex;
+  flex-direction: var(--flex-direction, row);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+@mixin sidebar {
+  display: flex;
+  flex-direction: var(--flex-direction, column);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  > * {
+    // Children grow by default.
+    // Set grow to zero on individual items to shrink.
+    // And set basis to desired width if needed.
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  //flex: 1 1 auto;
+  //flex: 0 1 auto;
+}
+
+// Every Layout just calls this a "grid," but that name's taken in CSS!
+@mixin cardgrid {
+  display: grid;
+  grid-gap: $horizontal-spacer;
+  grid-template-columns: repeat(var(--columns, 1), minmax(0, 1fr));
+  overflow-wrap: break-word;
+}
+
+// Hiding content from screens (hidden) from all browsers (invisible).
+
+@mixin hidden {
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  width: 1px !important;
+}
+
+@mixin invisible {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+// Classes based directly on mixins
+
+.invisible {
+  @include invisible;
+}
+
+.hidden {
+  @include hidden;
+}
+
+////////////////////////////////////////////////////////////
+//
+// 003) Media Queries
+//
+
+@media (max-width: 39.9999em) {
+  .bigscreen {
+    @include invisible;
+  }
+}
+
+// 40em is unzoomed equivalent of 640px
+@media (min-width: 40em) {
+  :root {
+    --flex-direction: row; // Flex wrap sidebars and such horizontally on larger screens
+    --grid-column-span: 2;
+  }
+
+  h1 {
+    --font-size: 1.75rem;
+  }
+
+  .homecards,
+  .footnav {
+    --columns: 2;
+  }
+
+  .banner {
+    --gap: $horizontal-spacer;
+    --margin-bottom: 2rem;
+    --margin-top: $vertical-spacer;
+  }
+
+  .siteforms {
+    --margin-bottom: 0;
+  }
+
+  .smallscreen {
+    @include invisible;
+  }
+
+  .newslist {
+    h3 {
+      --font-size: 1.125rem;
+    }
+  }
+
+  .subpage main {
+    article {
+      --grid-column: 1 / 4;
+      --grid-row: 2;
+    }
+
+    aside {
+      --grid-column: 4 / 5;
+      --grid-row: 2;
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+// 72em is unzoomed equivalent of 1152px
+@media (min-width: 72em) {
+  header {
+    --background-size: 100%;
+  }
+
+  .featured,
+  .homecards {
+    --columns: 3;
+  }
+
+  .footnav {
+    --columns: 4;
+  }
+
+  .newslist {
+    h3 {
+      --font-weight: 700;
+    }
+  }
+
+  .eventlist {
+    --grid-column-span: 1;
+  }
+
+  .topform {
+    --grid-template-columns: 13rem 2rem;
+  }
+}
+
+@media (min-width: 100em) {
+  html {
+    --font-size-base: 1.5rem;
+  }
+
+  .page {
+    --padding-horizontal: calc(54vw - calc(33.3333rem));
+  }
+}
+
+////////////////////////////////////////////////////////////
+//
+// 004) Default/Reset Styles
+//
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: var(
+    --font-size-base,
+    calc(0.75rem + 0.75vw)
+  ); // For browsers that don't support min/max/clamp.
+  font-size: var(--font-size-base, calc(max(calc(0.5rem + 1vw), 1rem)));
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  background-color: var(--background-color, color-focus);
+  color: var(--color, #181818);
+  font-family: $fonts-default;
+  line-height: $line-height;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+.page {
+  @include stack;
+
+  > * {
+    padding-left: var(--padding-horizontal, 4vw);
+    padding-right: var(--padding-horizontal, 4vw);
+  }
+}
+
+header,
+main,
+footer {
+  padding-top: $vertical-spacer;
+  padding-bottom: $vertical-spacer;
+}
+
+header,
+footer {
+  background-color: rgba(18, 18, 30, 0.6); // TODO: Opacity .9 in production?
+  background-image: linear-gradient(rgba(35, 35, 61, 0.5), rgba(18, 18, 30, 0.9));
+  color: $color-inverted;
+
+  a {
+    color: inherit;
+  }
+}
+
+header {
+  background-image: linear-gradient(rgba(35, 35, 61, 0.5), rgba(35, 35, 61, 0.9)),
+    url("/_assets2122/img/featuredheader.jpg");
+  background-size: var(--background-size, cover);
+}
+
+footer {
+  --FocusColor: #fa3;
+  background-image: linear-gradient(rgba(35, 35, 61, 0.8), rgba(35, 35, 61, 0.9)),
+    url("/_assets2122/img/featuredheader.jpg");
+  background-size: cover;
+  margin-top: $vertical-spacer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--line-height, 1.25);
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--font-size, 2.25rem);
+  font-weight: 500;
+  font-variant: var(--font-variant, normal);
+  text-shadow: 2px 2px 3px #000b;
+  text-transform: var(--text-transform, uppercase);
+}
+
+h2 {
+  font-family: $fonts-accent;
+}
+
+p,
+ul,
+ol,
+li,
+input,
+textarea,
+select,
+button {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  margin-left: 1.2rem;
+}
+
+summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+////////////////////////////////////////////////////////////
+//
+// 005) Page Classes/Sections
+//
+
+.sitenav {
+  background-color: rgba(18, 18, 30, 0.95);
+  border-bottom: 1px solid #fff5;
+  color: $color-inverted;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  z-index: 10;
+
+  a {
+    color: inherit;
+  }
+}
+
+#desknav {
+  @include cluster;
+
+  img.logo {
+    display: block;
+    height: 1.5rem;
+    width: auto;
+  }
+
+  details {
+    font-size: 0.875rem;
+    padding-left: $horizontal-spacer;
+
+    ul {
+      background-color: rgba(18, 18, 30, 0.98);
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      line-height: 2;
+      list-style: none;
+      margin: 2px 0 0 0;
+      padding: 0.5rem 1rem;
+      position: absolute;
+
+      a {
+        color: inherit;
+
+        &:hover {
+          color: $color-inverted-highlight;
+        }
+      }
+    }
+  }
+
+  summary {
+    text-decoration: underline;
+
+    &:hover {
+      color: $color-inverted-highlight;
+    }
+  }
+}
+
+.banner {
+  @include sidebar;
+
+  gap: var(--gap, 0);
+  margin-bottom: var(--margin-bottom, 0);
+  margin-top: var(--margin-top, 0);
+
+  .sitetitle {
+    a {
+      text-decoration: none;
+    }
+
+    p {
+      font-style: italic;
+    }
+  }
+
+  .siteforms {
+    flex: 0 1 auto;
+
+    .topform {
+      display: grid;
+      grid-gap: 0.25rem;
+      grid-template-columns: var(--grid-template-columns, 80vw 3rem);
+
+      &.search {
+        margin-bottom: var(--margin-bottom, 1rem);
+      }
+    }
+
+    label {
+      @include hidden;
+    }
+
+    input[type="search"],
+    select {
+      background-color: #fff;
+      border: 0;
+      display: inline-block;
+      height: 1.75rem;
+      text-indent: 0.25rem;
+    }
+
+    input[type="search"] {
+      -webkit-appearance: none;
+    }
+
+    button {
+      background: transparent;
+      border: 0;
+      display: grid;
+      text-align: center;
+      width: 2rem;
+
+      img {
+        place-self: center;
+      }
+    }
+
+    .jump {
+      margin-top: 0.25rem;
+
+      button {
+        background-color: #ccc;
+        //line-height: 1;
+      }
+    }
+  }
+}
+
+.featured,
+.homecards,
+.footnav {
+  @include cardgrid;
+}
+
+.featured,
+.homecards {
+  > * {
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+  }
+}
+
+.featured {
+  margin-top: 1.5rem;
+
+  & > * {
+    background-color: rgba(18, 18, 30, 0.75);
+  }
+}
+
+.homecards {
+  & > * {
+    background-image: linear-gradient(rgba(227, 240, 248, 0.5), rgba(227, 240, 248, 0.75));
+    box-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1) inset;
+
+    &:focus-within {
+      background-image: linear-gradient(rgba(248, 240, 227, 0.5), rgba(248, 240, 227, 0.75));
+    }
+  }
+
+  a:hover {
+    color: var(--FocusColor, $color-focus);
+  }
+}
+
+// https://css-tricks.com/positioning-overlay-content-with-css-grid/
+.vidcard {
+  background-color: #333d;
+  //background-image: linear-gradient(rgba(44, 44, 44, 0.95), rgba(44, 44, 44, 0.75));
+  background-image: none;
+  box-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1) inset;
+  color: $color-inverted;
+  display: grid;
+  grid-template-areas: "box";
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  //border: 2px solid var(--bg-color, crimson);
+
+  &:hover,
+  &:focus-within {
+    --FocusColor: $color-inverted;
+    background-image: none;
+
+    img {
+      filter: blur(5px) brightness(75%);
+    }
+  }
+
+  & > * {
+    grid-area: box;
+  }
+
+  img {
+    background-color: #333;
+    height: auto;
+    inline-size: 100%;
+    position: relative;
+  }
+
+  h2 {
+    padding: 0 1rem 0.75rem;
+    place-self: center;
+    text-align: center;
+    text-shadow: 2px 2px 3px #000e;
+    z-index: 1;
+
+    a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .tagline {
+    padding-bottom: 0.5rem;
+    place-self: end center;
+    text-shadow: 2px 2px 3px #000e;
+    z-index: 1;
+  }
+}
+
+.newslist,
+.eventlist {
+  ul {
+    list-style: none;
+    margin: $vertical-spacer 0 0 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      time {
+        display: block;
+        font-size: 0.875rem;
+        margin: 0;
+        text-transform: uppercase;
+      }
+
+      &.readmore {
+        font-style: italic;
+        margin-bottom: 0;
+        margin-top: 1.5rem;
+
+        & + .readmore {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.newslist {
+  background-image: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 1)),
+    url("/_assets2122/img/featuredheader.jpg");
+  background-size: cover;
+  box-shadow: none;
+  grid-column: span var(--grid-column-span, 1);
+
+  h3 {
+    font-size: var(--font-size, 1rem);
+    font-weight: var(--font-weight, 400);
+  }
+}
+
+.eventlist {
+  grid-column: span var(--grid-column-span, 1);
+}
+
+.essentials {
+  grid-column: span var(--grid-column-span, 1);
+
+  ul {
+    column-count: var(--grid-column-span, 1);
+  }
+}
+
+.featured,
+.footnav {
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  p,
+  ul,
+  ol,
+  address {
+    font-size: 0.9375rem;
+  }
+}
+
+.footnav {
+  margin-bottom: $vertical-spacer;
+
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: 1.0625rem;
+
+    &:not(:first-of-type) {
+      margin-top: $vertical-spacer;
+    }
+  }
+
+  font-size: 0.9375rem;
+}
+
+.subpage {
+  .banner {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+
+  main {
+    --display: grid;
+
+    display: var(--display, block);
+    grid-template-columns: var(--grid-template-columns, repeat(4, 1fr));
+    gap: 1rem;
+    //grid-auto-rows: minmax(6rem, auto);
+
+    img {
+      display: block;
+      height: auto;
+      max-width: 100%;
+    }
+
+    .breadcrumb {
+      grid-column: 1 / 5;
+      grid-row: 1;
+
+      font-family: $fonts-accent;
+      margin-top: -0.5rem;
+
+      p {
+        color: #555;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        color: inherit;
+      }
+    }
+
+    article {
+      grid-column: var(--grid-column, 1 / 5);
+      grid-row: var(--grid-row, 2);
+      margin: 0;
+      padding-right: 2rem;
+
+      > * + *,
+      .subpagecontent > * + *,
+      blockquote > * + *,
+      .flowcontent > * + * {
+        margin-top: $vertical-spacer;
+      }
+
+      > * + h3,
+      .subpagecontent > * + h3 {
+        font-size: 1.25rem;
+        margin-top: 2rem;
+      }
+
+      h2 {
+        margin-bottom: $vertical-spacer;
+      }
+
+      h3 {
+        //background-color: #fea6;
+        //text-transform: uppercase;
+      }
+
+      blockquote {
+        background-color: #f7f8fb;
+        border-left: 0.25rem solid #e9ecf3;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 1rem;
+      }
+
+      textarea,
+      input,
+      select {
+        margin-bottom: 1rem;
+        margin-top: 0.5rem;
+        max-width: 100%;
+        padding: 0.25rem;
+      }
+
+      table {
+        border: 2px solid #e9ecf3;
+        border-collapse: collapse;
+        font-family: $fonts-narrow;
+        font-size: 0.875rem;
+        min-width: 100%;
+        width: 100%;
+
+        th {
+          background-color: #f7f8fb;
+          border: 1px solid #e9ecf3;
+          font-weight: 500;
+          text-align: center;
+        }
+
+        td,
+        th {
+          border: 2px solid #e9ecf3;
+          margin: 0.25rem;
+          padding: 0.25rem;
+          vertical-align: top;
+        }
+
+        caption {
+          background-color: #e9ecf3;
+          font-weight: 700;
+          text-align: center;
+          text-transform: uppercase;
+        }
+      }
+
+      table.dashboard {
+        min-width: 30%;
+        width: auto;
+        td:not(:first-child) {
+          text-align: center;
+        }
+      }
+
+      // Horizontally scrolling tables. .table-container is added via mesita().
+      .table-container {
+        //-webkit-mask-image: -webkit-gradient(linear, left 50%, right 50%, from(rgba(0, 0, 0, 1)), color-stop(98%, rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, .1)));
+        overflow-y: auto;
+        _overflow: auto;
+
+        &::-webkit-scrollbar {
+          -webkit-appearance: none;
+          width: 0.875rem;
+          height: 0.875rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          border-radius: 8px;
+          border: 0.125rem solid #fff;
+          background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+          td,
+          th {
+            // Disable line wraps for tables inside horizontally-scrollable table containers.
+            white-space: nowrap;
+          }
+        }
+      }
+
+      .editlink {
+        font-size: 0.75rem;
+        opacity: 0.5;
+        text-align: right;
+      }
+
+      .editlink a {
+        text-decoration: none;
+      }
+    }
+
+    aside {
+      border-left: 1px solid #eee;
+      grid-column: var(--grid-column, 1 / 5);
+      grid-row: var(--grid-row, 3);
+      margin: 0;
+      padding-left: 1.25rem;
+
+      h2 {
+        margin-bottom: 1rem;
+      }
+
+      &.newslist {
+        background: #fff;
+
+        li {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}
+
+// 006) Accessibility and utility styles
+//
+
+// Default focus style
+*:focus {
+  outline: 2px dotted var(--FocusColor, $color-focus);
+}
+
+// Skip Link
+.skip {
+  @include box;
+
+  background-color: #900;
+  color: $color-inverted;
+}
+
+a.skip:not(:focus):not(:active) {
+  @include hidden;
+}
+
+#mobilenav {
+  --FocusColor: #fff6;
+  @include sidebar;
+
+  summary {
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // Because Safari doesn't allow <summary> elements to be "display: flex",
+    // we have to put a container inside. :-(
+    .navbox {
+      align-items: center;
+      display: flex;
+    }
+  }
+
+  .sitelogo {
+    align-items: center;
+    display: flex;
+
+    img {
+      height: 2.125rem;
+      width: auto;
+    }
+  }
+
+  h1 {
+    flex-grow: 1;
+    font-size: 1.875rem;
+    text-indent: 0.25rem;
+  }
+
+  .mobilemenu {
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    margin-right: 0.125rem;
+  }
+
+  .menuicon {
+    display: inline-block;
+    font-family: "MaterialIcons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.75rem;
+    letter-spacing: normal;
+    text-rendering: optimizeLegibility;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    white-space: nowrap;
+    word-wrap: normal;
+  }
+
+  details .closed {
+    display: inline-block;
+  }
+
+  details .open {
+    display: none;
+  }
+
+  details[open] .closed {
+    display: none;
+  }
+
+  details[open] .open {
+    display: inline-block;
+  }
+
+  ul {
+    font-size: 1.125rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+      background-color: #0009;
+      margin-top: 3px;
+      padding: 0.5rem;
+
+      a {
+        color: $color-inverted;
+      }
+    }
+  }
+}

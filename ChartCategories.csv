@@ -1,0 +1,17 @@
+key,header,d3format,label
+district,District Name,,School District Name
+isStateAverage,State Average,,State Average
+isFeatured,Featured District,,Featured District
+cost,Per-student $,"$,2f",Dollars Spent Per-Student
+sat,SAT,,Average Combined SAT Score
+act,ACT,,Average ACT Score
+lowIncome,Low Income %,0.00%,% of Low-Income Students
+classSize,Class Size,,Average Class Size
+teacherSalary,Teacher Salary,"$,2f",Average Teacher Salary
+limitedEnglish,% Limited English,0.00%,% of Limited-English-Proficient Students
+graduationRate,% of 4-year Graduates,0.00%,% of Four-Year High School Graduates
+pupilAdmin,Pupil to Admin Ratio,,# of Pupils per Administrator
+iep,IEP %,0.00%,% of Students Eligible for IEP (Special Ed.)
+postSecondary,Post-secondary %,0.00%,% of Students Continuing to Post-secondary
+iar2019ELA,2019 IAR ELA,,Average IAR ELA Score
+iar2019Math,2019 IAR Math,,Average IAR Math Score

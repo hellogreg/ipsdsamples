@@ -1,0 +1,347 @@
+/*
+
+IPSD Logo Colors (and blends):
+#284589 (#4e669e) #7386b2 (#8f9ec1) #a9b5d0
+
+Darker:
+#22386b #1d2c4e (blend #284589 with #111111) #1E3467 #223B74 (blend #284589 with #000000)
+#434c62 #2a2f3a (blend #7386b2 with #111111) #3A4359 (blend #7386b2 with #000000)
+
+Lighter (blend #a9b5d0 with #ffffff):
+#bfc8dc #d5dbe8 #e9ecf3 #edeff5 #f1f2f8 #f7f8fb
+
+Background, Text, and Accents:
+#ffffff #111111 #fff6bb #880003
+*/
+
+/* .SCSS Vars */
+
+$mainTextColor: #111;
+$baseChartColor: #7386b2;
+$chartHeaderColor: #7386b2;
+$accentColor: #f7f8fb;
+$borderColor: #ccc;
+$mainBgColor: #fff;
+$featuredDarkColor: #284589;
+$stateAverageColor: #f80;
+$axisColor: #666;
+$mainFontFamily: "Gotham SSm A", "Gotham SSm B", sans-serif;
+$altFontFamily: "Sentinel SSm A", "Sentinel SSm B", serif;
+$narrowFontFamily: "Gotham Narrow SSm A", "Gotham Narrow SSm B", sans-serif;
+
+/* Styles */
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: #f7f8fb;
+  color: $mainTextColor;
+  font-family: $mainFontFamily;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+section,
+article,
+header,
+footer,
+nav,
+aside,
+hgroup,
+div,
+form,
+svg {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+blockquote,
+iframe,
+form,
+fieldset,
+audio,
+video,
+applet,
+object,
+embed,
+hr,
+svg {
+  margin: 0 0 1rem 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+audio,
+video,
+applet,
+object,
+embed,
+iframe,
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $baseChartColor;
+  font-family: $altFontFamily;
+  padding: 0;
+}
+
+h1 {
+  color: #333;
+}
+
+p {
+  font-family: inherit;
+  font-size: 1.2rem;
+}
+
+form select {
+  font-family: inherit;
+  font-size: 1.3rem;
+  padding-right: 0.2rem;
+  width: auto;
+}
+
+.container {
+  background-color: $mainBgColor;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  width: 84rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  td,
+  th {
+    border: 2px solid $accentColor;
+    padding: 4px;
+    font-family: $narrowFontFamily;
+    font-size: 1.1rem;
+  }
+
+  th {
+    background-color: $accentColor;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+svg {
+  background-color: $accentColor;
+  border-radius: 0.5rem;
+}
+
+path {
+  stroke: steelblue;
+  stroke-width: 2;
+  fill: none;
+}
+
+.hide {
+  display: none;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: $axisColor;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  fill: $axisColor;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.label {
+  fill: $axisColor;
+  font-family: $altFontFamily;
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-transform: lowercase;
+}
+
+.point {
+  fill: $baseChartColor;
+  opacity: 0.75;
+}
+
+.slope .point {
+  opacity: 1;
+}
+
+.lineplot {
+  .point {
+    opacity: 0.75;
+
+    &.featuredfill,
+    &.statefill {
+      opacity: 1;
+    }
+  }
+
+  .districttext {
+    font-size: 1.2rem;
+    text-anchor: middle;
+
+    &.featuredfill {
+      font-weight: 700;
+    }
+
+    &.statefill {
+    }
+  }
+
+  &.axis path,
+  &.axis line {
+    fill: none;
+    stroke: #ddd;
+    stroke-width: 4;
+    shape-rendering: crispEdges;
+  }
+
+  &.legend {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .stateline {
+    opacity: 1;
+    stroke: $stateAverageColor;
+    stroke-dasharray: none;
+  }
+
+  .districtline {
+    opacity: 0.5;
+  }
+}
+
+.line {
+  stroke: $baseChartColor;
+  opacity: 0.75;
+}
+
+.scoretext {
+  dominant-baseline: central;
+  fill: white;
+  font-family: $narrowFontFamily;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-anchor: middle;
+}
+
+.districttext,
+.districtoutline,
+.legend {
+  fill: $baseChartColor;
+  font-family: $narrowFontFamily;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.districtoutline {
+  stroke: $accentColor;
+  stroke-width: 2px;
+}
+
+.trendline {
+  opacity: 0.7;
+  stroke: $baseChartColor;
+  stroke-dasharray: 6, 4;
+}
+
+.stateline {
+  opacity: 0;
+  stroke: $stateAverageColor;
+  stroke-dasharray: 6, 4;
+}
+
+.featuredfill {
+  fill: $featuredDarkColor;
+  opacity: 1;
+}
+
+.statefill {
+  fill: $stateAverageColor;
+  opacity: 1;
+}
+
+.featuredline {
+  stroke: $featuredDarkColor;
+  opacity: 1;
+}
+
+.bullet {
+  font-family: $narrowFontFamily;
+  font-size: 1rem;
+
+  .marker {
+    stroke: #000;
+    stroke-width: 2px;
+  }
+
+  .tick line {
+    stroke: #666;
+    stroke-width: 0.5px;
+  }
+
+  .range.s0 {
+    fill: #eee;
+  }
+
+  .range.s1 {
+    fill: #ddd;
+  }
+
+  .range.s2 {
+    fill: #ccc;
+  }
+
+  .measure.s0 {
+    fill: steelblue;
+  }
+
+  .titlegroup {
+    display: inline-block;
+    margin-top: 1rem;
+
+    .title {
+      font-size: 1.1rem;
+    }
+
+    .subtitle {
+      fill: #999;
+      display: none;
+    }
+  }
+}
